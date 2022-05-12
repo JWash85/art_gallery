@@ -4,9 +4,9 @@ import './App.css';
 import ButtonBar from './ButtonBar';
 import Gallery from './Gallery';
 
-//I might implement elements from rainbow activity to update and submit api object id's
+
 function App(){
-let [artId, setArtId] = useState(12720)
+let [artId, setArtId] = useState(3735)
 let [data, setData] = useState({})
 
 /* State variables here... */
