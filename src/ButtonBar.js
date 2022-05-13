@@ -1,11 +1,24 @@
 // in ButtonBar.js
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import {useEffect} from 'react'
+import { useSelector, useDispatch, connect} from 'react-redux'
 import { clearData, fetchData, incrementId, decrementId, inputId } from './features/dataSlice'
 
 function ButtonBar(props){
-    const dispatch = useDispatch()
+  const dispatch = useDispatch()
   const data = useSelector((state) => state.data)
+
+  const renderImg = () => {
+    if(data.apiData) {
+      return <img style={{'width': '100vw'}} src={data.apiData.primaryImage} alt={data.apiData.title} />
+    } else {
+      return <p>image here</p>
+    }
+  }
+  useEffect(() => {
+    dispatch(fetchData())
+}, [props.objectId, dispatch])
+
 
     return (
         <div className="App">
@@ -18,8 +31,15 @@ function ButtonBar(props){
           <input value={ data.objectId } onChange={(e) => {
             dispatch(inputId(Number(e.target.value)))
           }} />
-        </div>
+          <div>        
+        {data.objectId}
+        {renderImg()}
+      </div>
+    </div>
       );
+
+            
+      
 
 /*return (
     <div>
@@ -30,4 +50,8 @@ function ButtonBar(props){
     </div>
 )*/
 }
- export default ButtonBar;
+const mapStateToProps = (state) => ({
+    objectId: state.data.objectId
+  })
+
+export default connect(mapStateToProps)(ButtonBar)
